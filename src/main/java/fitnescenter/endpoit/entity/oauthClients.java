@@ -1,6 +1,7 @@
 package fitnescenter.endpoit.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,7 +26,7 @@ import lombok.Setter;
 
 public class oauthClients {
     
-     public static final String TABLE_NAME = "oauth_access_tokens";
+    public static final String TABLE_NAME = "oauth_clients";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -62,4 +63,6 @@ public class oauthClients {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
+    @OneToOne(mappedBy = "oauth_clients")
+    private List<oauthAccessTokens> oauth_access_tokens;
 }

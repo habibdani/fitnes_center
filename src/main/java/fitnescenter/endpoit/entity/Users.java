@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import javax.print.DocFlavor.STRING;
 
-import org.hibernate.mapping.List;
+// import org.hibernate.mapping.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,6 +19,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -58,6 +60,12 @@ public class Users {
      @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
-    // @OneToOne(mappedBy = "users")
-    // private List<CreditCard> credit_card;
+    @OneToOne(mappedBy = "users")
+    private List<CreditCard> credit_card;
+
+    @OneToOne(mappedBy = "users")
+    private List<oauthAccessTokens> oauth_access_tokens;
+
+    @OneToOne(mappedBy = "users")
+    private List<passwordResetTokens> password_reset_tokens;
 }

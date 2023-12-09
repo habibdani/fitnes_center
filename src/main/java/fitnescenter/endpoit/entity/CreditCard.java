@@ -32,7 +32,7 @@ public class CreditCard {
     private Long id;
 
     @JsonProperty("nomor_kartu")
-    private String nomorkartu;
+    private String nomorKartu;
 
     @JsonProperty("cvv")
     private String cvv;
@@ -43,9 +43,9 @@ public class CreditCard {
     private Users users;
     
     @JsonProperty("expired_date")
-    private Date expireddate;
+    private Date expiredDate;
 
     @JsonProperty("created_at")
-    private Date createdat;
+    private Date createdAt;
 
 }

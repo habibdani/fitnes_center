@@ -2,6 +2,7 @@ package fitnescenter.endpoit.entity;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,10 +35,12 @@ public class oauthAccessTokens {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonProperty("user_id")
-    private Users userid;
+    private Users users;
 
+    @OneToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     @JsonProperty("client_id")
-    private String clientid;
+    private oauthClients oauth_clients;
 
     @JsonProperty("name")
     private String name;
@@ -56,5 +59,8 @@ public class oauthAccessTokens {
 
     @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
+
+    @OneToOne(mappedBy = "oauth_access_tokens")
+    private List<oauthRefreshTokens> oauth_refresh_tokens;
 
 }

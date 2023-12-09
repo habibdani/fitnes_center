@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 // import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -27,8 +29,10 @@ public class passwordResetTokens {
 
     @Email
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OneToOne
+    @JoinColumn(name = "email", referencedColumnName = "email")
     @JsonProperty("email")
-    private String email;
+    private Users users;
 
     @JsonProperty("token")
     private String token;
