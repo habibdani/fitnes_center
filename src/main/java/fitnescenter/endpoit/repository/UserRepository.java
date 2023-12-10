@@ -11,6 +11,7 @@ import java.util.Map;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, String> {
+
     // check email
     @Query(value = """
         SELECT
@@ -23,4 +24,5 @@ public interface UserRepository extends JpaRepository<Users, String> {
             AND deleted_at IS NULL
     """, nativeQuery = true)
     List<Map<String, Object>> checkEmail(String email);
+    
 }

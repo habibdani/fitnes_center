@@ -3,10 +3,6 @@ package fitnescenter.endpoit.entity;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-import javax.print.DocFlavor.STRING;
-
-// import org.hibernate.mapping.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -57,7 +53,7 @@ public class Users {
     @JsonProperty("created_at")
     private Date createdAt;
 
-     @JsonProperty("deleted_at")
+    @JsonProperty("deleted_at")
     private LocalDateTime deletedAt;
 
     @OneToOne(mappedBy = "users")
