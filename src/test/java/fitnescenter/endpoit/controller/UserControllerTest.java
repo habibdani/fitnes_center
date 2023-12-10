@@ -38,7 +38,7 @@ public class UserControllerTest {
     // private ContactRepository contactRepository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper obaddjectMapper;
 
     @Test
     void testRegisterSuccess() throws Exception {
