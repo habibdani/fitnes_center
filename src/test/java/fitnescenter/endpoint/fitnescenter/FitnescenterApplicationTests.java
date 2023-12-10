@@ -1,10 +1,10 @@
-package fitnescenter.endpoit;
+package fitnescenter.endpoint.fitnescenter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FitnerCenterEndpointApplicationTests {
+class FitnescenterApplicationTests {
 
 	@Test
 	void contextLoads() {

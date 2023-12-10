@@ -1,58 +1,71 @@
 package fitnescenter.endpoit.services;
 
+import fitnescenter.endpoit.models.LoginUserRequest;
+import fitnescenter.endpoit.models.LoginResponse;
+// import fitnescenter.endpoit.models.WebResponseSuccess;
+import fitnescenter.endpoit.entity.User;
+import fitnescenter.endpoit.repository.UserRepository;
+import fitnescenter.endpoit.security.BCrypt;
+// import fitnescenter.endpoit.utility.Email;
+// import fitnescenter.endpoit.utility.Otp;
+// import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import fitnescenter.endpoit.entity.Users;
-import fitnescenter.endpoit.entity.oauthAccessTokens;
-import fitnescenter.endpoit.models.LoginUserRequest;
-import fitnescenter.endpoit.models.TokenResponse;
-import fitnescenter.endpoit.repository.UserRepository;
-import fitnescenter.endpoit.security.BCrypt;
 
 import java.util.UUID;
 
 @Service
+// @Slf4j
 public class AuthService {
 
+    // @Autowired
+    // private Otp otp;
+
+    // @Autowired
+    // private  Email email;
+
     @Autowired
-    private oauthAccessTokens oauthAccessTokens;
+    private UserRepository userRepository;
 
     @Autowired
     private ValidationService validationService;
 
     @Transactional
-    public TokenResponse login(LoginUserRequest request) {
+    public LoginResponse login(LoginUserRequest request){
         validationService.validate(request);
 
-        oauthAccessTokens oauthAccessTokens = oauthAccessTokens.findByuserId(request.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong"));
+        User user = userRepository.findFirstByEmail(request.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email atau Password salah ciiinnnn ... !!!"));
 
-        // if (BCrypt.checkpw(request.getPassword(), users.getPassword())) {
-    //         users.setToken(UUID.randomUUID().toString());
-    //         users.setTokenExpiredAt(next30Days());
-    //         userRepository.save(users);
+        if (!BCrypt.checkpw(request.getPassword(), user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email atau Password salah ciiinnnn ... !!!");
+        }else if (!user.isActive()){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Your account is not verified");
+        }else {
+            user.setToken(UUID.randomUUID().toString());
+            user.setTokenExpiredAt(tokenExpired());
+            userRepository.save(user);
 
-    //         return TokenResponse.builder()
-    //                 .token(users.getToken())
-    //                 .expiredAt(users.getTokenExpiredAt())
-    //                 .build();
-    //     } else {
-    //         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong");
-    //     }
-    // }
+            return LoginResponse.builder()
+                    .name(user.getName())
+                    .token(user.getToken())
+                    .tokenExpiredAt(user.getTokenExpiredAt())
+                    .build();
+        }
+    }
 
-    // private Long next30Days() {
-    //     return System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 30);
-    // }
+    @Transactional
+    public void logout(User user){
+        user.setToken(null);
+        user.setTokenExpiredAt(null);
+        userRepository.save(user);
+    }
 
-    // @Transactional
-    // public void logout(Users users) {
-    //     users.setToken(null);
-    //     users.setTokenExpiredAt(null);
+    private Long tokenExpired() {
+        return System.currentTimeMillis() + (60000);
+    }
 
-    //     userRepository.save(users);
-    // }
 }

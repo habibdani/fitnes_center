@@ -1,6 +1,6 @@
 package fitnescenter.endpoit.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+// import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
+public class UpdateUserResponse {
 
     private String name;
 
@@ -24,7 +24,5 @@ public class UserResponse {
 
     private String number_credit_card;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date expired_card;
-
 }

@@ -1,4 +1,4 @@
-package programmerzamannow.restful.model;
+package fitnescenter.endpoit.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TokenResponse {
+public class LoginResponse {
+
+    private String name;
 
     private String token;
 
-    private Long expiredAt;
+    private Long tokenExpiredAt;
 }
