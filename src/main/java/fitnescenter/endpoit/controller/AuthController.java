@@ -10,7 +10,7 @@ import fitnescenter.endpoit.entity.Users;
 import fitnescenter.endpoit.models.LoginUserRequest;
 import fitnescenter.endpoit.models.TokenResponse;
 import fitnescenter.endpoit.models.WebResponse;
-import fitnescenter.endpoit.service.AuthService;
+import fitnescenter.endpoit.services.AuthService;
 
 @RestController
 public class AuthController {
@@ -23,17 +23,17 @@ public class AuthController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    // public WebResponse<TokenResponse> login(@RequestBody LoginUserRequest request) {
-    //     TokenResponse tokenResponse = authService.login(request);
-    //     return WebResponse.<TokenResponse>builder().data(tokenResponse).build();
-    // }
+    public WebResponse<TokenResponse> login(@RequestBody LoginUserRequest request) {
+        TokenResponse tokenResponse = authService.login(request);
+        return WebResponse.<TokenResponse>builder().data(tokenResponse).build();
+    }
 
-    // @DeleteMapping(
-    //         path = "/api/auth/logout",
-    //         produces = MediaType.APPLICATION_JSON_VALUE
-    // )
-    // public WebResponse<String> logout(User user) {
-    //     authService.logout(user);
-    //     return WebResponse.<String>builder().data("OK").build();
-    // }
+    @DeleteMapping(
+            path = "/api/auth/logout",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> logout(Users users) {
+        authService.logout(users);
+        return WebResponse.<String>builder().data("OK").build();
+    }
 }

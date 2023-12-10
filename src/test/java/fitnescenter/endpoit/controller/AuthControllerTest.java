@@ -1,24 +1,20 @@
 package fitnescenter.endpoit.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import fitnescenter.endpoit.models.RegisterUserRequest;
+import fitnescenter.endpoit.entity.Users;
+import fitnescenter.endpoit.models.LoginUserRequest;
+import fitnescenter.endpoit.models.TokenResponse;
 import fitnescenter.endpoit.models.WebResponse;
 import fitnescenter.endpoit.repository.UserRepository;
-
-import java.util.List;
-import java.util.UUID;
+import fitnescenter.endpoit.security.BCrypt;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.MockMvcBuilder.*;
@@ -26,9 +22,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
-public class UserControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+class AuthControllerTest {
 
-     @Autowired
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -37,25 +35,30 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @BeforeEach
+    void setUp() {
+        userRepository.deleteAll();
+    }
+
     @Test
-    void testRegisterSuccess() throws Exception {
-        RegisterUserRequest request = new RegisterUserRequest();
-        request.setUsername("habib");
-        request.setPassword("password");
-        request.setEmail("habib@example.com");
-        request.setPhoneNumber(42342342);
+    void loginFailedUserNotFound() throws Exception {
+        LoginUserRequest request = new LoginUserRequest();
+        request.setUsername("test");
+        request.setPassword("test");
 
         mockMvc.perform(
-                post("/api/users")
+                post("/api/auth/login")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
         ).andExpectAll(
-                status  ().isOk()
+                status().isUnauthorized()
         ).andDo(result -> {
             WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
-            assertEquals("OKE dong", response.getData());
+            assertNotNull(response.getErrors());
         });
     }
+
+
 }

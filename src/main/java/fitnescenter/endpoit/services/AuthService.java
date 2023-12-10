@@ -27,10 +27,10 @@ public class AuthService {
     public TokenResponse login(LoginUserRequest request) {
         validationService.validate(request);
 
-        oauthAccessTokens oauthAccessTokens = oauthAccessTokens.findById(request.getUsername())
+        oauthAccessTokens oauthAccessTokens = oauthAccessTokens.findByuserId(request.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username or password wrong"));
 
-        if (BCrypt.checkpw(request.getPassword(), users.getPassword())) {
+        // if (BCrypt.checkpw(request.getPassword(), users.getPassword())) {
     //         users.setToken(UUID.randomUUID().toString());
     //         users.setTokenExpiredAt(next30Days());
     //         userRepository.save(users);
