@@ -1,6 +1,8 @@
 package fitnescenter.endpoit.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,30 +20,33 @@ import java.util.Date;
 public class UpdateUserRequest {
 
     @NotBlank
-    @Size(max = 30)
+    @Size(max = 100)
     private String name;
 
     @NotBlank
     @Email
-    @Size(max = 30)
+    @Size(max = 100)
     private String email;
 
     @Size(max = 100)
     private String password;
 
     @NotBlank
-    @Size(max = 30)
+    @Size(max = 100)
     private String phone;
 
     @NotBlank
-    @Size(max = 30)
-    private String name_credit_card;
+    @Size(max = 100)
+    @Column(name = "name_credit_card")
+    private String nameCreditCard;
 
     @NotBlank
-    @Size(max = 50)
-    private String number_credit_card;
+    @Size(max = 100)
+    @Column(name = "number_credit_card")
+    private String numberCreditCard;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date expired_card;
+    @Column(name = "expired_credit_card")
+    private Date expiredCreditCard;
 
 }

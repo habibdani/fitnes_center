@@ -1,6 +1,7 @@
 package fitnescenter.endpoit.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,12 +19,12 @@ import java.util.Date;
 public class RegisterUserRequest {
 
     @NotBlank
-    @Size(max = 30)
+    @Size(max = 100)
     private String name;
 
     @NotBlank
     @Email
-    @Size(max = 30)
+    @Size(max = 100)
     private String email;
 
     @NotBlank
@@ -31,18 +32,18 @@ public class RegisterUserRequest {
     private String password;
 
     @NotBlank
-    @Size(max = 30)
+    @Size(max = 100)
     private String phone;
 
     @NotBlank
-    @Size(max = 30)
-    private String name_credit_card;
+    @Size(max = 100)
+    private String nameCreditCard;
 
     @NotBlank
-    @Size(max = 50)
-    private String number_credit_card;
+    @Size(max = 100)
+    private String numberCreditCard;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date expired_card;
+    private Date expiredCreditCard;
 
 }

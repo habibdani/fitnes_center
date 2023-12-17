@@ -31,7 +31,7 @@ public class UserService {
     private Otpu otpUtil;
 
     @Autowired
-    private Emailu emailu;
+    private Emailu emailUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -49,7 +49,7 @@ public class UserService {
 
         String otp = otpUtil.generatorOtp();
         try{
-            emailu.sendOtpEmail(request.getEmail(), otp);
+            emailUtil.sendOtpEmail(request.getEmail(), otp);
         } catch (MessagingException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to send otp please try again");
         }
@@ -60,10 +60,10 @@ public class UserService {
         user.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
         user.setPhone(request.getPhone());
         user.setOtp(otp);
-        user.setOtp_time(LocalDateTime.now());
-        user.setName_credit_card(request.getName_credit_card());
-        user.setNumber_credit_card(request.getNumber_credit_card());
-        user.setCard_expired(request.getExpired_card());
+        user.setOtpTime(LocalDateTime.now());
+        user.setNameCreditCard(request.getNameCreditCard());
+        user.setNumberCreditCard(request.getNumberCreditCard());
+        user.setExpiredCreditCard(request.getExpiredCreditCard());
 
         userRepository.save(user);
     }
@@ -73,7 +73,7 @@ public class UserService {
         User user = userRepository.findFirstByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found"));
 
-         if (user.getOtp().equals(otp) && Duration.between(user.getOtp_time(),LocalDateTime.now()).getSeconds() < (1 * 60)){
+         if (user.getOtp().equals(otp) && Duration.between(user.getOtpTime(),LocalDateTime.now()).getSeconds() < (1 * 60)){
             user.setActive(true);
             userRepository.save(user);
             return "OTP verified yo can login";
@@ -90,13 +90,13 @@ public class UserService {
 
         String otp = otpUtil.generatorOtp();
         try {
-            emailu.sendOtpEmail(email, otp);
+            emailUtil.sendOtpEmail(email, otp);
         }catch (MessagingException e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to send otp please try again");
         }
 
         user.setOtp(otp);
-        user.setOtp_time(LocalDateTime.now());
+        user.setOtpTime(LocalDateTime.now());
         userRepository.save(user);
 
         return "Otp sent to email " + email + ". Please verify account within 1 minute";
@@ -118,9 +118,9 @@ public class UserService {
                 .name(user.getName())
                 .email(user.getEmail())
                 .phone(user.getPhone())
-                .name_credit_card(user.getName_credit_card())
-                .number_credit_card(user.getNumber_credit_card())
-                .expired_card(user.getCard_expired())
+                .nameCreditCard(user.getNameCreditCard())
+                .numberCreditCard(user.getNumberCreditCard())
+                .expiredCreditCard(user.getExpiredCreditCard())
                 .build();
     }
 
@@ -138,28 +138,33 @@ public class UserService {
             user.setEmail(request.getEmail());
         }
 
+        if (Objects.nonNull(user.getPhone())){
+            user.setPhone(request.getPhone());
+        }
+
         if (Objects.nonNull(user.getPassword())){
             user.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
         }
 
-        if (Objects.nonNull(user.getName_credit_card())) {
-            user.setName_credit_card(request.getName_credit_card());
+        if (Objects.nonNull(user.getNameCreditCard())) {
+            user.setNameCreditCard(request.getNameCreditCard());
         }
 
-        if (Objects.nonNull(user.getNumber_credit_card())){
-            user.setNumber_credit_card(request.getNumber_credit_card());
+        if (Objects.nonNull(user.getNumberCreditCard())){
+            user.setNumberCreditCard(request.getNumberCreditCard());
         }
 
-        if (Objects.nonNull(user.getCard_expired())){
-            user.setCard_expired(request.getExpired_card());
+        if (Objects.nonNull(user.getExpiredCreditCard())){
+            user.setExpiredCreditCard(request.getExpiredCreditCard());
         }
 
         return UpdateUserResponse.builder()
                 .name(user.getName())
                 .email(user.getEmail())
-                .name_credit_card(user.getName_credit_card())
-                .number_credit_card(user.getNumber_credit_card())
-                .expired_card(user.getCard_expired())
+                .phone(user.getPhone())
+                .nameCreditCard(user.getNameCreditCard())
+                .numberCreditCard(user.getNumberCreditCard())
+                .expiredCreditCard(user.getExpiredCreditCard())
                 .build();
     }
 
@@ -170,13 +175,13 @@ public class UserService {
 
         String otp = otpUtil.generatorOtp();
         try{
-            emailu.setOtpForgotPassword(request.getEmail(), otp);
+            emailUtil.setOtpForgotPassword(request.getEmail(), otp);
         } catch (MessagingException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to send otp please try again");
         }
 
         user.setOtp(otp);
-        user.setOtp_time(LocalDateTime.now());
+        user.setOtpTime(LocalDateTime.now());
         userRepository.save(user);
     }
 
@@ -185,7 +190,7 @@ public class UserService {
         User user = userRepository.findFirstByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found"));
 
-        if (user.getOtp().equals(request.getOtp()) && Duration.between(user.getOtp_time(),LocalDateTime.now()).getSeconds() < (1 * 60)){
+        if (user.getOtp().equals(request.getOtp()) && Duration.between(user.getOtpTime(),LocalDateTime.now()).getSeconds() < (1 * 60)){
             user.setPassword(BCrypt.hashpw(request.getNewPassword(), BCrypt.gensalt()));
             userRepository.save(user);
             return "Set new password success, please login again";

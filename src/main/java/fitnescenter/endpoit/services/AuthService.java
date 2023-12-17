@@ -1,13 +1,12 @@
 package fitnescenter.endpoit.services;
 
-import fitnescenter.endpoit.models.LoginUserRequest;
-import fitnescenter.endpoit.models.LoginResponse;
-// import fitnescenter.endpoit.models.WebResponseSuccess;
 import fitnescenter.endpoit.entity.User;
+import fitnescenter.endpoit.models.LoginResponse;
+import fitnescenter.endpoit.models.LoginUserRequest;
 import fitnescenter.endpoit.repository.UserRepository;
 import fitnescenter.endpoit.security.BCrypt;
-// import fitnescenter.endpoit.utility.Email;
-// import fitnescenter.endpoit.utility.Otp;
+// import fitnescenter.endpoit.utility.Emailu;
+// import fitnescenter.endpoit.utility.Otpu;
 // import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +21,10 @@ import java.util.UUID;
 public class AuthService {
 
     // @Autowired
-    // private Otp otp;
+    // private Otpu otpUtil;
 
     // @Autowired
-    // private  Email email;
+    // private  Emailu emailUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -65,7 +64,7 @@ public class AuthService {
     }
 
     private Long tokenExpired() {
-        return System.currentTimeMillis() + (60000);
+        return System.currentTimeMillis() + (6000000);
     }
 
 }

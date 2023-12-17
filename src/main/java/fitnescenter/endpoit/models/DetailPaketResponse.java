@@ -5,13 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MenuResponse<L> {
+public class DetailPaketResponse {
 
-    private String menu_name;
+    private String namaLatihan;
 
-    private Integer duration;
+    private Long harga;
+
+    private String hari;
+
+    private LocalDateTime durasiMenit;
+
 }

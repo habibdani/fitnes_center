@@ -1,7 +1,5 @@
-package fitnescenter.endpoit.resolf;
+package fitnescenter.endpoit.resolver;
 
-import fitnescenter.endpoit.entity.User;
-import fitnescenter.endpoit.repository.UserRepository;
 // import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 // import lombok.extern.slf4j.Slf4j;
@@ -14,6 +12,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.server.ResponseStatusException;
+
+import fitnescenter.endpoit.entity.User;
+import fitnescenter.endpoit.repository.UserRepository;
 
 // import java.util.UUID;
 

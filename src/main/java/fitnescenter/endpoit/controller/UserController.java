@@ -8,7 +8,7 @@ import fitnescenter.endpoit.models.UpdateUserResponse;
 import fitnescenter.endpoit.models.UserResponse;
 import fitnescenter.endpoit.models.WebResponseSuccess;
 import fitnescenter.endpoit.entity.User;
-import fitnescenter.endpoit.services.AuthService;
+// import fitnescenter.endpoit.services.AuthService;
 import fitnescenter.endpoit.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

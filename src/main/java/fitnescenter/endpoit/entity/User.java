@@ -1,8 +1,8 @@
 package fitnescenter.endpoit.entity;
 
 import jakarta.persistence.*;
-// import jakarta.validation.constraints.NotBlank;
-// import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        indexes = {
+                @Index(name = "fk_name_user", columnList = "name")
+        }
+)
 public class User {
 
     @Id
@@ -35,20 +40,21 @@ public class User {
 
     private String otp;
 
-    private LocalDateTime otp_time;
+    @Column(name = "otp_time")
+    private LocalDateTime otpTime;
 
     private String token;
 
     @Column(name = "token_expired_at")
     private Long tokenExpiredAt;
 
-    private String name_credit_card;
+    @Column(name = "name_credit_card")
+    private String nameCreditCard;
 
-    private String cvv;
-
-    private String number_credit_card;
+    @Column(name = "number_credit_card")
+    private String numberCreditCard;
 
     @Column(name = "expired_credit_card")
-    private Date card_expired;
+    private Date expiredCreditCard;
 
 }

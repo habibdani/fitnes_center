@@ -20,11 +20,11 @@ public class UserResponse {
 
     private String phone;
 
-    private String name_credit_card;
+    private String nameCreditCard;
 
-    private String number_credit_card;
+    private String numberCreditCard;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date expired_card;
+    private Date expiredCreditCard;
 
 }

@@ -20,9 +20,9 @@ public class UpdateUserResponse {
 
     private String phone;
 
-    private String name_credit_card;
+    private String nameCreditCard;
 
-    private String number_credit_card;
+    private String numberCreditCard;
 
-    private Date expired_card;
+    private Date expiredCreditCard;
 }
